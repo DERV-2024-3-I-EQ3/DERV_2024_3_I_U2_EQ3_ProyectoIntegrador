@@ -14,6 +14,7 @@ public class RotateRound : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        transform.LookAt(center);
         transform.RotateAround(center.transform.position, center.transform.up, velocidad * Time.deltaTime);
     }
 }

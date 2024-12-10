@@ -12,6 +12,7 @@ public class Gummingo_Controller : MonoBehaviour
     [SerializeField] private float distanciaControl = 2.0f; // Distancia máxima para controlar el balón
     [SerializeField] private Transform posicionBalon; // Posición para dribblear con el balón
     [SerializeField] private GameObject porteriaRival; // Portería donde disparar
+    [SerializeField] private float distanciaDisparoRivals; // Portería propia
 
     private new Rigidbody rigidbody;
     private Animator animator;
@@ -95,20 +96,34 @@ public class Gummingo_Controller : MonoBehaviour
 
     private void PerseguirPorteria()
     {
-        IsWalking = true;
+        float distanciaActual = Vector3.Distance(transform.position, porteriaRival.transform.position);
 
-        // Obtener la dirección hacia la portería, pero limitándola al plano XZ
-        Vector3 direccion = (porteriaRival.transform.position - transform.position).normalized;
-        direccion.y = 0f; // Ignorar la componente vertical
+        if (distanciaActual > distanciaDisparoRivals)
+        {
+            IsWalking = true;
+            Vector3 direccion = (porteriaRival.transform.position - transform.position).normalized;
+            direccion.y = 0f;
 
-        Quaternion rotacionPorteria = Quaternion.LookRotation(direccion);
-
-        // Mover hacia la portería
-        rigidbody.MovePosition(transform.position + direccion * velocidad * Time.deltaTime);
-
-        // Rotación suave en el plano horizontal (solo en el eje Y)
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotacionPorteria, Time.deltaTime * 10f);
+            Quaternion rotacionPorteria = Quaternion.LookRotation(direccion);
+            rigidbody.MovePosition(transform.position + direccion * velocidad * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotacionPorteria, Time.deltaTime * 10f);
+        }
+        else
+        {
+            IsWalking = false;
+            PatearBalon();
+        }
     }
+
+    private void PatearBalon()
+    {
+
+        Vector3 direccionPateo = (porteriaRival.transform.position - balon.transform.position).normalized;
+        direccionPateo.y = 0.25f;
+        balon.GetComponent<Rigidbody>().AddForce(direccionPateo * fuerzaDisparo, ForceMode.Impulse);
+    }
+
+
 
     private void rotarGummingo(Vector3 direccion)
     {
