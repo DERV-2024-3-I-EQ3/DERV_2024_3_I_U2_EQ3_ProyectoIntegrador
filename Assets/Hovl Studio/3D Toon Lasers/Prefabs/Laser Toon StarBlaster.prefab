@@ -14768,7 +14768,7 @@ MonoBehaviour:
   HitEffect: {fileID: 1124230097294894}
   FlashEffect: {fileID: 1767865496316884}
   HitOffset: 0.01
-  MaxLength: 100
+  MaxLength: 30
 --- !u!198 &198868283709770526
 ParticleSystem:
   m_ObjectHideFlags: 0

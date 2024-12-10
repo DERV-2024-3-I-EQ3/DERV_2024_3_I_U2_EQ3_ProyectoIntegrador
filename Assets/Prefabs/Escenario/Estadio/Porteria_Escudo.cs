@@ -19,15 +19,12 @@ public class Porteria_Escudo : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Balon")
+        if (collision.gameObject.tag == "Balon" && index < 2)
         {
-            if (index < 4)
-            {
-                index++;
-                GetComponent<MeshRenderer>().material = escudos[index];
-                balon.position = center.position;
-                balon.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            }
+            index++;
+            GetComponent<MeshRenderer>().material = escudos[index];
         }
+        balon.position = center.position;
+        balon.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 }

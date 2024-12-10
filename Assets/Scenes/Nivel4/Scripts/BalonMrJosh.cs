@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 public class BalonMrJosh : MonoBehaviour
 {
     [SerializeField] private GameObject rayo;
@@ -11,13 +11,6 @@ public class BalonMrJosh : MonoBehaviour
     private GameObject Instance;
     public float MaxLength;
     private new Rigidbody rigidbody;
-
-    [SerializeField] GameObject escudo1;
-    [SerializeField] GameObject escudo2;
-    [SerializeField] GameObject escudo3;
-    [SerializeField] Image escudo1IMG;
-    [SerializeField] Image escudo2IMG;
-    [SerializeField] Image escudo3IMG;
 
     void Start()
     {
@@ -44,36 +37,7 @@ public class BalonMrJosh : MonoBehaviour
         {
             Instance.transform.forward = direccion;
         }
-
-        if (0f < fuerza && fuerza < 100f)
-        {
-            rigidbody.AddForce(transform.right * -1 * fuerza / 100, ForceMode.Impulse);
-        }
-        else if (fuerza < 0)
-        {
-            fuerza = 0;
-        }
-        else if (fuerza > 100)
-        {
-            fuerza = 100;
-        }
-
-        float procentajeFuerza = (fuerza * 100) / 50;
-        if (procentajeFuerza < 2)
-        {
-            escudo3.SetActive(false);
-            Destroy(escudo3IMG);
-        }
-        else if (procentajeFuerza < 50)
-        {
-            escudo2.SetActive(false);
-            Destroy(escudo2IMG);
-        }
-        else if (procentajeFuerza < 75)
-        {
-            escudo1.SetActive(false);
-            Destroy(escudo1IMG);
-        }
+        rigidbody.AddForce(transform.right * -1 * fuerza, ForceMode.Acceleration);
     }
 
     private void instanciarRayo()
